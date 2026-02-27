@@ -62,15 +62,7 @@ Troubleshooting
 - Ollama errors: confirm the local Ollama daemon or API is reachable and the listed models (`nomic-embed-text`, `llama3`) are installed.
 - Chroma errors: confirm `chromadb` is installed and the `strava_vectordb/` directory is writable.
 
-Privacy & security
-- The CSV contains personal activity data. Keep the repo and the Chroma store private and avoid sharing it publicly.
-
-Extending the pipeline
-- Add more structured metadata (distance in kilometers, durations in human-readable form) to improve LLM answers.
-- Add range filters and fuzzy matching to `build_where` to support queries like "last 30 days" or "runs longer than 10 km".
-- Add more tools (average, count, percentiles, unit conversions) and a safer tool-routing prompt to expand deterministic capabilities.
-
-Your steps (as requested)
+Steps
 1. I chunked the CSV file by each line then turned each line into a narrative and embedded it with a model and ChromaDB.
 2. I then turned the user prompt into an embedding which retrieves top results and feeds them into an LLM for answer generation.
 3. I created metadata to help the RAG pipeline find more relevant chunks (month, year, day_of_week, time_of_day, etc.).
