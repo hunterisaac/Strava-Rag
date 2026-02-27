@@ -12,7 +12,7 @@ if collection.count() > 0:
     print("Database already exists. Skipping import.")
     pass 
 else:
-    with open("strava_data_copy.csv", newline='') as csvfile:
+    with open("strava_data.csv", newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             iso_string = str(row['start_date_local'])
@@ -154,9 +154,8 @@ def ask_strava(question):
 
 
 
-#print(ask_strava("how much total time running have i done overall"))
-#print(ask_strava("Give me info about a few hikes."))
-print(ask_strava("Tell me the date where I biked the farthest distance"))
-#print(ask_strava("Tell me the longest activity."))
+print(ask_strava("how much total time running have i done overall"))
+print(ask_strava("Give me info about a few hikes."))
+
 
        
