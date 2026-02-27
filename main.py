@@ -26,7 +26,7 @@ else:
             narrative = f"On {readable_date}, I went on a {row['name']}. The {row['type']} covered {row['distance']} meters in {row['moving_time']} seconds. My average speed was {row['average_speed']} m/s and my max speed was {row['max_speed']} m/s. {heartrate}"
             response = ollama.embeddings(model="nomic-embed-text", prompt=narrative)
             vector = response["embedding"]
-            print(narrative)
+            #print(narrative)
             row['month'] = dt_obj.strftime("%B") 
             row['year'] = dt_obj.year             
             row['day_of_week'] = dt_obj.strftime("%A")
@@ -48,7 +48,7 @@ else:
                 row['time_of_day'] = "Afternoon"
             if "Evening" in narrative:
                 row['time_of_day'] = "Evening"
-            print('metadata', row)
+            #print('metadata', row)
 
 
             collection.add(
@@ -76,12 +76,12 @@ def build_where(question):
     value = json.loads(response['response'])
     formatted_list = []
     
-    print(value)
+    #print(value)
     for key, val in value.items():
         if val is not None and val != "":
             formatted_list.append({key: val})
             
-    print("where clause", formatted_list)
+    #print("where clause", formatted_list)
     return formatted_list
 def build_tool(question):
     router_prompt = f"""
@@ -105,7 +105,7 @@ def build_tool(question):
     response = ollama.generate(model="llama3", prompt=router_prompt, format="json")
     value = json.loads(response['response'])
     tools = []
-    print("tool-response:", value)
+    #print("tool-response:", value)
     if value.get("tool_name") == "total":
         column = value.get("args", {}).get("column")
         if column:
@@ -115,7 +115,7 @@ def build_tool(question):
                 tools.append(f"The total sum of the {column} column: {total_value}")
             else:
                 print(f"Error: Column {column} not found in CSV.")
-    print(tools)
+    #print(tools)
     return tools
 def ask_strava(question):
     q_response = ollama.embeddings(model="nomic-embed-text", prompt=question)
@@ -126,7 +126,7 @@ def ask_strava(question):
         where_clause = jsons[0]
     elif len(jsons) > 1:
         where_clause = {"$and": jsons}
-    print(where_clause)
+    #print(where_clause)
     results = collection.query(
         query_embeddings=[q_vector],
         n_results=9,
@@ -147,7 +147,7 @@ def ask_strava(question):
     {toolss}
     Question: {question}
     """
-    print(prompt)
+    #print(prompt)
 
     final_answer = ollama.generate(model="llama3", prompt=prompt)
     return final_answer['response']
